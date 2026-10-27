@@ -67,7 +67,7 @@ export default function SettingsView({
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-8">
       {welcome && (
-        <div className="mb-6 rounded-xl bg-blue-50 p-4 text-sm text-blue-900 dark:bg-blue-950 dark:text-blue-100">
+        <div className="mb-6 rounded-xl bg-accent-soft p-4 text-sm text-ink">
           🎉 註冊完成！最後一步：設定你自己的 OpenAI API key，AI 家教就是透過它跟你對話的。
           還沒有的話，照著下方的教學申請即可。
         </div>
@@ -78,21 +78,21 @@ export default function SettingsView({
         </div>
       )}
 
-      <h1 className="text-2xl font-bold">API 設定</h1>
-      <p className="mt-1 text-sm text-neutral-500">
+      <h1 className="text-3xl font-bold tracking-tight">API 設定</h1>
+      <p className="mt-1 text-sm text-muted">
         AI 家教使用你自己的 OpenAI API key，費用由你的 OpenAI 帳戶支付。
       </p>
 
-      <section className="mt-6 rounded-xl border border-neutral-200 p-5 dark:border-neutral-800">
+      <section className="mt-6 rounded-2xl border border-line bg-card shadow-soft p-5">
         <h2 className="font-semibold">OpenAI API key</h2>
         <p className="mt-2 text-sm">
           目前狀態：
           {!status ? (
-            <span className="text-neutral-500">讀取中…</span>
+            <span className="text-muted">讀取中…</span>
           ) : status.hasKey ? (
             <>
               <span className="text-green-700 dark:text-green-400">已設定</span>
-              <code className="ml-2 rounded bg-neutral-100 px-1.5 py-0.5 text-xs dark:bg-neutral-800">
+              <code className="ml-2 rounded bg-subtle px-1.5 py-0.5 text-xs">
                 {status.hint}
               </code>
             </>
@@ -113,12 +113,12 @@ export default function SettingsView({
                 placeholder="sk-..."
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                className="flex-1 rounded-lg border border-neutral-300 bg-transparent px-3 py-2 font-mono text-sm outline-none focus:border-blue-500 dark:border-neutral-700"
+                className="flex-1 rounded-lg border border-line bg-transparent px-3 py-2 font-mono text-sm outline-none focus:border-accent focus:ring-4 focus:ring-accent/10"
               />
               <button
                 type="button"
                 onClick={() => setShowKey((v) => !v)}
-                className="rounded-lg border border-neutral-300 px-3 text-sm text-neutral-600 dark:border-neutral-700 dark:text-neutral-400"
+                className="rounded-lg border border-line px-3 text-sm text-muted"
               >
                 {showKey ? "隱藏" : "顯示"}
               </button>
@@ -140,7 +140,7 @@ export default function SettingsView({
             <button
               type="submit"
               disabled={saving || !apiKey.trim()}
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+              className="rounded-lg bg-accent text-accent-ink px-4 py-2 text-sm font-medium disabled:opacity-50"
             >
               {saving ? "驗證中…" : "驗證並儲存"}
             </button>
@@ -156,7 +156,7 @@ export default function SettingsView({
           </div>
         </form>
 
-        <p className="mt-4 text-xs text-neutral-500">
+        <p className="mt-4 text-xs text-muted">
           🔒 儲存前會先向 OpenAI 確認這組 key 有效。key 會加密後存放，畫面上只會顯示頭尾幾個字，不會再完整顯示。
         </p>
       </section>
@@ -166,35 +166,35 @@ export default function SettingsView({
   );
 }
 
-const linkClass = "text-blue-600 underline underline-offset-2 hover:text-blue-700";
+const linkClass = "text-accent underline underline-offset-2 hover:text-accent";
 
 function ApiKeyGuide({ defaultOpen }: { defaultOpen: boolean }) {
   return (
     <details
       key={String(defaultOpen)} // 讀到狀態後，沒設定過 key 的人預設展開
       open={defaultOpen}
-      className="mt-6 rounded-xl border border-neutral-200 p-5 dark:border-neutral-800"
+      className="mt-6 rounded-2xl border border-line bg-card shadow-soft p-5"
     >
       <summary className="cursor-pointer font-semibold">📖 不知道怎麼申請？跟著這 4 步做</summary>
 
       <ol className="mt-4 space-y-5 text-sm leading-relaxed">
         <li>
           <h3 className="font-semibold">1. 註冊或登入 OpenAI 開發者平台</h3>
-          <p className="mt-1 text-neutral-600 dark:text-neutral-400">
+          <p className="mt-1 text-muted">
             前往{" "}
             <a href="https://platform.openai.com/signup" target="_blank" rel="noreferrer" className={linkClass}>
               platform.openai.com
             </a>
             ，可以直接用 ChatGPT 的帳號登入。
           </p>
-          <p className="mt-1 text-neutral-600 dark:text-neutral-400">
+          <p className="mt-1 text-muted">
             ⚠️ 注意：ChatGPT Plus 的月費<strong>不包含</strong> API 額度，兩者是分開計費的。
           </p>
         </li>
 
         <li>
           <h3 className="font-semibold">2. 儲值（加入付款方式）</h3>
-          <p className="mt-1 text-neutral-600 dark:text-neutral-400">
+          <p className="mt-1 text-muted">
             到{" "}
             <a
               href="https://platform.openai.com/settings/organization/billing/overview"
@@ -206,7 +206,7 @@ function ApiKeyGuide({ defaultOpen }: { defaultOpen: boolean }) {
             </a>
             ，點「Add payment details」綁定信用卡，再用「Add to credit balance」儲值，最低 US$5 起。
           </p>
-          <p className="mt-1 text-neutral-600 dark:text-neutral-400">
+          <p className="mt-1 text-muted">
             💡 練習用的模型很便宜，一場對話通常花不到新台幣 1 元，US$5 可以練很久。
             建議關閉自動儲值（Auto recharge），用多少儲多少比較安心。
           </p>
@@ -214,26 +214,26 @@ function ApiKeyGuide({ defaultOpen }: { defaultOpen: boolean }) {
 
         <li>
           <h3 className="font-semibold">3. 建立 API key</h3>
-          <p className="mt-1 text-neutral-600 dark:text-neutral-400">
+          <p className="mt-1 text-muted">
             到{" "}
             <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" className={linkClass}>
               API keys 頁面
             </a>
             ，點右上角「Create new secret key」，名稱可以取「AI English Tutor」，其他維持預設，按「Create secret key」。
           </p>
-          <p className="mt-1 text-neutral-600 dark:text-neutral-400">
-            ⚠️ 產生的 key（以 <code className="rounded bg-neutral-100 px-1 dark:bg-neutral-800">sk-</code>{" "}
+          <p className="mt-1 text-muted">
+            ⚠️ 產生的 key（以 <code className="rounded bg-subtle px-1">sk-</code>{" "}
             開頭的一長串字）<strong>只會顯示這一次</strong>，請馬上按複製。如果不小心關掉了，刪掉再建一組新的就好。
           </p>
         </li>
 
         <li>
           <h3 className="font-semibold">4. 貼到上方欄位，按「驗證並儲存」</h3>
-          <p className="mt-1 text-neutral-600 dark:text-neutral-400">驗證通過就完成了，回到首頁選個場景開始練習吧！</p>
+          <p className="mt-1 text-muted">驗證通過就完成了，回到首頁選個場景開始練習吧！</p>
         </li>
       </ol>
 
-      <div className="mt-6 rounded-lg bg-neutral-50 p-4 text-sm text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400">
+      <div className="mt-6 rounded-lg bg-subtle p-4 text-sm text-muted">
         <p className="font-semibold text-foreground">安全小提醒</p>
         <ul className="mt-2 list-disc space-y-1 pl-5">
           <li>API key 就像密碼，不要貼給別人或放到公開的地方。</li>

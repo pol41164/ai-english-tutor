@@ -7,7 +7,7 @@ export default function SettingsPage({ searchParams }: PageProps<"/settings">) {
   return (
     <>
       <AppHeader />
-      <Suspense fallback={<p className="py-12 text-center text-sm text-neutral-500">載入中…</p>}>
+      <Suspense fallback={<p className="py-12 text-center text-sm text-muted">載入中…</p>}>
         <SettingsView searchParams={searchParams} />
       </Suspense>
     </>

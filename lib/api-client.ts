@@ -1,6 +1,6 @@
 // 只允許站內相對路徑，避免 ?next= 被用來導到外部網站
 export function safeNext(next: string | undefined | null) {
-  return next && next.startsWith("/") && !next.startsWith("//") ? next : "/";
+  return next && next.startsWith("/") && !next.startsWith("//") ? next : "/practice";
 }
 
 // 前端呼叫自家 API 用：統一處理錯誤訊息，401 時導向登入頁，沒設定 API key 時導向設定頁

@@ -1,26 +1,141 @@
 @import "tailwindcss";
 
+/* 設計 tokens：紙感象牙白 + 墨黑 + 暖橘強調色 */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --paper: #f7f4ee;
+  --card: #fffdf9;
+  --subtle: #f0ebe2;
+  --ink: #1a1714;
+  --muted: #6b645c;
+  --line: #e7e1d7;
+  --line-strong: #d6cec1;
+  --accent: #c2410c;
+  --accent-strong: #9a3412;
+  --accent-soft: #fbeadf;
+  --accent-ink: #ffffff;
+  --shadow: 26 23 20;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #12100e;
+    --card: #1b1815;
+    --subtle: #231f1b;
+    --ink: #f2ede6;
+    --muted: #a39b91;
+    --line: #2d2925;
+    --line-strong: #3d3731;
+    --accent: #ff8a4c;
+    --accent-strong: #ffa574;
+    --accent-soft: #3a2116;
+    --accent-ink: #1a0e07;
+    --shadow: 0 0 0;
+  }
+}
+
+@theme inline {
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-subtle: var(--subtle);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+
+  --font-sans: var(--font-geist-sans), var(--font-noto-tc), system-ui, sans-serif;
+  --font-display: var(--font-fraunces), var(--font-noto-tc), Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --shadow-soft: 0 1px 2px rgb(var(--shadow) / 0.04), 0 4px 16px rgb(var(--shadow) / 0.06);
+  --shadow-lift: 0 2px 4px rgb(var(--shadow) / 0.05), 0 16px 40px rgb(var(--shadow) / 0.1);
+
+  --animate-rise: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-fade: fade 0.3s ease-out both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes typing {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  30% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+/* 打字中的三個點 */
+.typing-dot {
+  animation: typing 1.2s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+
+/* 細緻的紙張顆粒感，用在 landing page 背景 */
+.paper-grain {
+  background-image: radial-gradient(rgb(var(--shadow) / 0.05) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

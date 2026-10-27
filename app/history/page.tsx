@@ -63,17 +63,17 @@ export default function HistoryPage() {
   const tabClass = (t: Tab) =>
     `border-b-2 px-1 pb-2 text-sm font-medium ${
       tab === t
-        ? "border-blue-600 text-blue-600"
-        : "border-transparent text-neutral-500 hover:text-foreground"
+        ? "border-accent text-accent"
+        : "border-transparent text-muted hover:text-ink"
     }`;
 
   return (
     <>
       <AppHeader />
       <main className="mx-auto w-full max-w-3xl px-4 py-8">
-        <h1 className="text-2xl font-bold">我的紀錄</h1>
+        <h1 className="text-3xl font-bold tracking-tight">我的紀錄</h1>
 
-        <div className="mt-6 flex gap-6 border-b border-neutral-200 dark:border-neutral-800">
+        <div className="mt-6 flex gap-6 border-b border-line">
           <button className={tabClass("conversations")} onClick={() => setTab("conversations")}>
             練習紀錄{conversations && `（${conversations.length}）`}
           </button>
@@ -83,31 +83,31 @@ export default function HistoryPage() {
         </div>
 
         {error && <p className="mt-6 text-sm text-red-600">{error}</p>}
-        {!error && !conversations && <p className="mt-6 text-sm text-neutral-500">載入中…</p>}
+        {!error && !conversations && <p className="mt-6 text-sm text-muted">載入中…</p>}
 
         {tab === "conversations" && conversations && (
           <ul className="mt-4 space-y-3">
             {conversations.length === 0 && (
-              <li className="text-sm text-neutral-500">
-                還沒有練習紀錄，<Link href="/" className="text-blue-600 hover:underline">去練習</Link>吧！
+              <li className="text-sm text-muted">
+                還沒有練習紀錄，<Link href="/" className="text-accent hover:underline">去練習</Link>吧！
               </li>
             )}
             {conversations.map((c) => (
               <li key={c.id}>
                 <Link
                   href={`/practice/${c.id}`}
-                  className="block rounded-xl border border-neutral-200 p-4 transition hover:border-blue-500 dark:border-neutral-800"
+                  className="block rounded-2xl border border-line bg-card shadow-soft p-4 transition hover:border-line-strong hover:shadow-lift"
                 >
                   <div className="flex items-center gap-2">
                     <span className="font-semibold">
                       {c.scenario ? `${c.scenario.emoji} ${c.scenario.label}` : "練習"}
                     </span>
-                    <span className="ml-auto text-xs text-neutral-500">{formatDate(c.startedAt)}</span>
+                    <span className="ml-auto text-xs text-muted">{formatDate(c.startedAt)}</span>
                   </div>
-                  <p className="mt-1 truncate text-sm text-neutral-600 dark:text-neutral-400">
+                  <p className="mt-1 truncate text-sm text-muted">
                     {c.lastMessage}
                   </p>
-                  <p className="mt-2 text-xs text-neutral-500">
+                  <p className="mt-2 text-xs text-muted">
                     {c.messageCount} 則訊息 · {c.correctionCount} 筆糾錯
                   </p>
                 </Link>
@@ -119,39 +119,39 @@ export default function HistoryPage() {
         {tab === "corrections" && corrections && (
           <ul className="mt-4 space-y-3">
             {corrections.length === 0 && (
-              <li className="text-sm text-neutral-500">
+              <li className="text-sm text-muted">
                 還沒有糾錯紀錄。在練習中按「糾正文法」或「更好的回答」就會記錄在這裡。
               </li>
             )}
             {corrections.map((c) => (
               <li
                 key={c.id}
-                className="rounded-xl border border-neutral-200 p-4 text-sm dark:border-neutral-800"
+                className="rounded-2xl border border-line bg-card shadow-soft p-4 text-sm"
               >
-                <div className="flex items-center gap-2 text-xs text-neutral-500">
+                <div className="flex items-center gap-2 text-xs text-muted">
                   <span className="rounded bg-amber-100 px-1.5 py-0.5 text-amber-800 dark:bg-amber-900 dark:text-amber-200">
                     {ISSUE_LABELS[c.type] ?? c.type}
                   </span>
                   {c.scenario && <span>{`${c.scenario.emoji} ${c.scenario.label}`}</span>}
                   <span>{formatDate(c.createdAt)}</span>
-                  <Link href={`/practice/${c.conversationId}`} className="ml-auto text-blue-600 hover:underline">
+                  <Link href={`/practice/${c.conversationId}`} className="ml-auto text-accent hover:underline">
                     查看對話
                   </Link>
                 </div>
 
                 {c.type === "expression" ? (
                   <>
-                    <p className="mt-2 text-neutral-500">你說：{c.original}</p>
+                    <p className="mt-2 text-muted">你說：{c.original}</p>
                     <p className="mt-1 font-medium">{c.suggestion}</p>
                     {c.explanation && (
-                      <p className="mt-1 text-neutral-600 dark:text-neutral-400">{c.explanation}</p>
+                      <p className="mt-1 text-muted">{c.explanation}</p>
                     )}
                     {c.keyPhrases.length > 0 && (
                       <ul className="mt-2 space-y-0.5">
                         {c.keyPhrases.map((p, i) => (
                           <li key={i}>
-                            <span className="font-medium text-blue-700 dark:text-blue-300">{p.phrase}</span>
-                            <span className="text-neutral-600 dark:text-neutral-400">：{p.meaning}</span>
+                            <span className="font-medium text-accent">{p.phrase}</span>
+                            <span className="text-muted">：{p.meaning}</span>
                           </li>
                         ))}
                       </ul>
@@ -165,10 +165,10 @@ export default function HistoryPage() {
                       <span className="text-green-700 dark:text-green-400">{c.suggestion}</span>
                     </p>
                     {c.explanation && (
-                      <p className="mt-1 text-neutral-600 dark:text-neutral-400">{c.explanation}</p>
+                      <p className="mt-1 text-muted">{c.explanation}</p>
                     )}
                     {c.correctedSentence && (
-                      <p className="mt-1 text-neutral-500">整句：{c.correctedSentence}</p>
+                      <p className="mt-1 text-muted">整句：{c.correctedSentence}</p>
                     )}
                   </>
                 )}

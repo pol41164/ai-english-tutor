@@ -2,9 +2,18 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Logo from "@/components/Logo";
 import { apiFetch, postJSON } from "@/lib/api-client";
 
+const NAV = [
+  { href: "/practice", label: "開始練習" },
+  { href: "/history", label: "我的紀錄" },
+  { href: "/settings", label: "API 設定" },
+];
+
 export default function AppHeader() {
+  const pathname = usePathname();
   const [name, setName] = useState("");
 
   useEffect(() => {
@@ -21,24 +30,59 @@ export default function AppHeader() {
   }
 
   return (
-    <header className="border-b border-neutral-200 dark:border-neutral-800">
-      <div className="mx-auto flex w-full max-w-3xl items-center gap-4 px-4 py-3 text-sm">
-        <Link href="/" className="font-bold">
-          AI 英文家教
-        </Link>
-        <Link href="/history" className="text-neutral-600 hover:text-foreground dark:text-neutral-400">
-          我的紀錄
-        </Link>
-        <Link href="/settings" className="text-neutral-600 hover:text-foreground dark:text-neutral-400">
-          API 設定
-        </Link>
+    <header className="sticky top-0 z-20 border-b border-line/70 bg-paper/80 backdrop-blur-md">
+      <div className="mx-auto flex w-full max-w-5xl items-center gap-6 px-5 py-3">
+        <Logo href="/practice" />
+
+        <nav className="hidden items-center gap-1 sm:flex">
+          {NAV.map((item) => {
+            const active = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-full px-3.5 py-1.5 text-sm transition ${
+                  active ? "bg-ink font-medium text-paper" : "text-muted hover:bg-subtle hover:text-ink"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
         <div className="ml-auto flex items-center gap-3">
-          {name && <span className="text-neutral-500">{name}</span>}
-          <button onClick={logout} className="text-neutral-600 hover:text-foreground dark:text-neutral-400">
+          {name && (
+            <span className="flex items-center gap-2 text-sm">
+              <span className="grid size-8 place-items-center rounded-full bg-accent-soft font-semibold text-accent">
+                {name.slice(0, 1).toUpperCase()}
+              </span>
+              <span className="hidden text-muted md:inline">{name}</span>
+            </span>
+          )}
+          <button
+            onClick={logout}
+            className="rounded-full border border-line px-3.5 py-1.5 text-sm text-muted transition hover:border-line-strong hover:text-ink"
+          >
             登出
           </button>
         </div>
       </div>
+
+      {/* 手機版導覽 */}
+      <nav className="flex gap-1 overflow-x-auto px-5 pb-2.5 sm:hidden">
+        {NAV.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={`shrink-0 rounded-full px-3 py-1 text-sm ${
+              pathname === item.href ? "bg-ink text-paper" : "text-muted"
+            }`}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }

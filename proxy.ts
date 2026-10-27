@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { SESSION_COOKIE } from "@/lib/session-cookie";
 
-const PUBLIC_PAGES = ["/login", "/signup"];
+const PUBLIC_PAGES = ["/", "/login", "/signup"]; // "/" 是公開的 landing page
 
 // 只做初步過濾：沒有 session cookie 就擋下。
 // cookie 是否有效、資料是不是本人的，由每支 API 到資料庫驗證（見 lib/auth.ts）。
